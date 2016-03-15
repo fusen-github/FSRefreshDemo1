@@ -12,6 +12,14 @@
 
 #define kRefreshViewDefaultHeight 60
 
+#define SuppressPerformSelectorLeakWarning(Stuff) \
+do { \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
+Stuff; \
+_Pragma("clang diagnostic pop") \
+} while (0)
+
 @interface FSRefreshView ()
 
 @property (nonatomic, weak) UIImageView *arrowView;
@@ -203,9 +211,6 @@
     {
         self.timeLabel.text = [NSString stringWithFormat:@"最后加载 %@",[self getLastRefreshTime]];
     }
-    
-    
-    
 }
 
 
@@ -250,7 +255,10 @@
     {
         if ([self.target respondsToSelector:self.refreshAction])
         {
-            [self.target performSelector:self.refreshAction];
+            //  直接使用该方法，会有“可能出现内存泄露”的警告。可是使用下面的宏方法。
+//            [self.target performSelector:self.refreshAction];
+            
+            SuppressPerformSelectorLeakWarning([self.target performSelector:self.refreshAction]);
         }
     }
 }
