@@ -204,6 +204,8 @@
         self.timeLabel.text = [NSString stringWithFormat:@"最后加载 %@",[self getLastRefreshTime]];
     }
     
+    
+    
 }
 
 

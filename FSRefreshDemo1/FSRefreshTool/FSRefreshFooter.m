@@ -39,6 +39,8 @@
         self.refreshState = FSRefreshStateNormal;
         
         self.scrollViewOriginContentHeight = scrollView.contentSize.height;
+        
+//        self.hidden = YES;
     }
     return self;
 }
@@ -78,30 +80,48 @@
         [self layoutSubviews];
     }
     
-    if (y <= 0 || self.scrollView.bounds.size.height == 0)
+    if (!self.hasNavBar)
     {
-        return;
+        if (y <= 0 || self.scrollView.bounds.size.height == 0)
+        {
+            return;
+        }
+    }
+    else
+    {
+        if (y <= -64 || self.scrollView.bounds.size.height == 0) {
+            return;
+        }
     }
     
-    if (y > criticalY && self.refreshState == FSRefreshStateNormal && !self.hidden)
+    
+    if (y > criticalY && self.refreshState == FSRefreshStateNormal) // && !self.hidden
     {
         [self setRefreshState:FSRefreshStateWillRefresh];
+        
+//        NSLog(@"will");
         
         return;
     }
     
-    if (y <= criticalY && self.refreshState == FSRefreshStateWillRefresh &&
+    // y <= criticalY &&
+    if (self.refreshState == FSRefreshStateWillRefresh &&
         !self.scrollView.isDragging)
     {
+//        NSLog(@"isRefreshing");
+        
         [self setRefreshState:FSRefreshStateIsRefreshing];
         
         return;
     }
     
     
-    if (y <= criticalY && self.scrollView.isDragging &&
+    // y <= criticalY &&
+    if (!self.scrollView.isDragging &&
         self.refreshState != FSRefreshStateNormal)
     {
+//        NSLog(@"normal");
+        
         [self setRefreshState:FSRefreshStateNormal];
     }
     
@@ -116,11 +136,11 @@
     
     if (self.hasNavBar)
     {
-        self.hidden = self.scrollView.bounds.size.height - 64 > self.frame.origin.y;
+//        self.hidden = self.scrollView.bounds.size.height - 64 > self.frame.origin.y;
     }
     else
     {
-        self.hidden = self.scrollView.bounds.size.height > self.frame.origin.y;
+//        self.hidden = self.scrollView.bounds.size.height > self.frame.origin.y;
     }
     
 }

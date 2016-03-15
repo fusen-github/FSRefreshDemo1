@@ -43,6 +43,8 @@
     
     tableView.frame = self.view.bounds;
     
+    tableView.tableFooterView = [UIView new];
+    
     tableView.dataSource = self;
     
     tableView.delegate = self;
