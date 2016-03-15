@@ -257,15 +257,20 @@
 
 
 - (void)endRefreshing
-{    
-    if (self.hasNavBar && self.originalContentInset.top == 0 &&
-        self.refreshViewType == FSRefreshViewTypeHeader)
+{
+    // self.refreshViewType == FSRefreshViewTypeHeader
+    if (self.hasNavBar && self.originalContentInset.top == 0 && self.refreshViewType == FSRefreshViewTypeHeader)
     {
         UIEdgeInsets inset = self.originalContentInset;
         
         inset.top += 64;
         
         self.originalContentInset = inset;
+    }
+    
+    if (!self.hasNavBar)
+    {
+        self.originalContentInset = UIEdgeInsetsZero;
     }
     
     [UIView animateWithDuration:0.25 animations:^{

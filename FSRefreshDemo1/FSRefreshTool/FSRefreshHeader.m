@@ -86,7 +86,7 @@
     }
     
     
-    if (y <= criticalY + 15 && (self.refreshState == FSRefreshStateWillRefresh) &&
+    if (y <= criticalY + 10 && (self.refreshState == FSRefreshStateWillRefresh) &&
         !self.scrollView.isDragging)
     {
         [self setRefreshState:FSRefreshStateIsRefreshing];

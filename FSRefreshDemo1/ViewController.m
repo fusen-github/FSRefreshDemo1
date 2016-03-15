@@ -67,7 +67,7 @@
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             [self.dataArray insertObject:@"付森" atIndex:0];
         }
@@ -91,7 +91,7 @@
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             [self.dataArray addObject:@"fusen"];
         }
@@ -116,6 +116,8 @@
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc] initWithStyle:0 reuseIdentifier:@"cell"];
+        
+//        cell.backgroundColor = [UIColor redColor];
     }
     
     cell.textLabel.text = [NSString stringWithFormat:@"这是第%ld行 一共%ld行",indexPath.row + 1,self.dataArray.count];
