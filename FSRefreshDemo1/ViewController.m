@@ -64,7 +64,7 @@
     
     [header beginRefreshWithTarget:self refreshAction:@selector(headerRefresh)];
     
-    [header beginRefreshWhenViewWillAppear];
+//    [header beginRefreshWhenViewWillAppear];
 }
 
 

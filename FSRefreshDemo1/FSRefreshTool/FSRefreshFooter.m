@@ -110,7 +110,11 @@
         self.hidden = NO;
     }
     
-    CGFloat y = [change[@"new"] CGPointValue].y;
+    CGFloat y = [change[@"new"] CGPointValue].y + self.scrollView.contentInset.top;;
+    
+//    NSLog(@"FS %lf",self.scrollView.contentInset.top);
+    
+    NSLog(@"%lf",y);
     
     if (y <= 0) return;
     
@@ -152,6 +156,8 @@
     }
     else
     {
+        y -= self.scrollView.contentInset.top;
+        
             CGFloat criticalY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.bounds.size.height;
         
         //    CGFloat criticalY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.bounds.size.height + self.scrollView.contentInset.bottom;
