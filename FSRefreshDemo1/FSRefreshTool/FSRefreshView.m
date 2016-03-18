@@ -28,8 +28,6 @@ _Pragma("clang diagnostic pop") \
 
 @property (nonatomic, weak) UILabel *timeLabel;
 
-@property (nonatomic, assign) BOOL hasNavBar;
-
 @property (nonatomic, strong) id target;
 
 @property (nonatomic) SEL refreshAction;
@@ -40,24 +38,24 @@ _Pragma("clang diagnostic pop") \
 
 @property (nonatomic, weak, readonly) UIActivityIndicatorView *activity;
 
+@property (nonatomic, assign) UIEdgeInsets inset1;
+
+@property (nonatomic, assign) UIEdgeInsets inset2;
+
 @end
 
 @implementation FSRefreshView
 
-- (instancetype)initWithScrollView:(UIScrollView *)scrollView navigationBarIsExist:(BOOL)isExist
+- (instancetype)initWithScrollView:(UIScrollView *)scrollView
 {
     if (self = [super init])
     {
         _scrollView = scrollView;
         
-        self.hasNavBar = isExist;
-        
         [_scrollView addSubview:self];
         
         [_scrollView addObserver:self
                       forKeyPath:kObserveKey options:NSKeyValueObservingOptionNew context:nil];
-        
-        self.originalContentInset = scrollView.contentInset;
     }
     return self;
 }
@@ -128,8 +126,6 @@ _Pragma("clang diagnostic pop") \
     
     timeLabel.textColor = [UIColor blackColor];
     
-    //    timeLabel.text = @"上次更新 18:21";
-    
     timeLabel.backgroundColor = [UIColor clearColor];
     
     [self addSubview:timeLabel];
@@ -141,6 +137,8 @@ _Pragma("clang diagnostic pop") \
 {
     [super willMoveToSuperview:newSuperview];
     
+//    NSLog(@"3-%@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
+    
     self.frame = CGRectMake(0, 0, self.scrollView.bounds.size.width, kRefreshViewDefaultHeight);
     
     if (!newSuperview)
@@ -149,6 +147,10 @@ _Pragma("clang diagnostic pop") \
     }
 }
 
+- (void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+}
 
 - (void)beginRefreshWithTarget:(id)target refreshAction:(SEL)action
 {
@@ -185,6 +187,9 @@ _Pragma("clang diagnostic pop") \
 
 - (void)refreshStateNormal
 {
+//    NSLog(@"5-%@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
+    _isRefreshing = NO;
+    
     [self.activity stopAnimating];
     
     [self.activity setHidden:YES];
@@ -216,6 +221,10 @@ _Pragma("clang diagnostic pop") \
 
 - (void)refreshStateWillRefresh
 {
+//    NSLog(@"6-%@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
+    
+    _isRefreshing = NO;
+    
     self.infoLabel.text = self.willRefreshInfoText;
     
     [self.infoLabel sizeToFit];
@@ -223,6 +232,7 @@ _Pragma("clang diagnostic pop") \
     [UIView animateWithDuration:0.25 animations:^{
        
         self.arrowView.transform = CGAffineTransformMakeRotation(self.arrowWillRefreshRadian);
+        
     } completion:^(BOOL finished) {
         
     }];
@@ -230,14 +240,24 @@ _Pragma("clang diagnostic pop") \
 
 
 - (void)refreshStateIsRefreshing
-{    
+{
+//    NSLog(@"7-%@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
+    
+    self.originalContentInset = self.scrollView.contentInset;
+    
     self.scrollView.contentInset = [self getNewContentInsetWithAddInset:self.addContentInset];
+    
+//    NSLog(@"8-%@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
+    
+    self.inset1 = self.scrollView.contentInset;
     
     self.arrowView.hidden = YES;
     
     self.activity.hidden = NO;
     
     [self.activity startAnimating];
+    
+    _isRefreshing = YES;
     
     self.lastRefreshDate = [NSDate date];
     
@@ -266,20 +286,15 @@ _Pragma("clang diagnostic pop") \
 
 - (void)endRefreshing
 {
-    // self.refreshViewType == FSRefreshViewTypeHeader
-    if (self.hasNavBar && self.originalContentInset.top == 0 && self.refreshViewType == FSRefreshViewTypeHeader)
-    {
-        UIEdgeInsets inset = self.originalContentInset;
-        
-        inset.top += 64;
-        
-        self.originalContentInset = inset;
-    }
+    self.inset2 = self.scrollView.contentInset;
     
-    if (!self.hasNavBar)
-    {
-        self.originalContentInset = UIEdgeInsetsZero;
-    }
+    CGFloat diffTop = self.inset2.top - self.inset1.top;
+    
+    UIEdgeInsets inset = self.originalContentInset;
+    
+    inset.top += diffTop;
+    
+    self.originalContentInset = inset;
     
     [UIView animateWithDuration:0.25 animations:^{
         

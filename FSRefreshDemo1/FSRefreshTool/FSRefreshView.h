@@ -52,6 +52,8 @@ typedef void(^FSBeginRefreshBlock)();
 
 @property (nonatomic, assign) FSRefreshViewType refreshViewType;
 
+@property (nonatomic, readonly) BOOL isRefreshing;
+
 
 /**
  *  初始化生成一个refreshView
@@ -61,7 +63,7 @@ typedef void(^FSBeginRefreshBlock)();
  *
  *  @return refreshView对象。
  */
-- (instancetype)initWithScrollView:(UIScrollView *)scrollView navigationBarIsExist:(BOOL)isExist;
+- (instancetype)initWithScrollView:(UIScrollView *)scrollView;
 
 - (void)beginRefreshWithTarget:(id)target refreshAction:(SEL)action;
 

@@ -10,20 +10,20 @@
 
 @interface FSRefreshFooter ()
 
-@property (nonatomic, assign) BOOL hasNavBar;
-
 @property (nonatomic, assign) CGFloat scrollViewOriginContentHeight;
+
+@property (nonatomic, assign) UIEdgeInsets originEdgeInset;
+
+@property (nonatomic, assign) BOOL isFilled;
 
 @end
 
 @implementation FSRefreshFooter
 
-- (instancetype)initWithScrollView:(UIScrollView *)scrollView navigationBarIsExist:(BOOL)isExist
+- (instancetype)initWithScrollView:(UIScrollView *)scrollView
 {
-    if (self = [super initWithScrollView:scrollView navigationBarIsExist:isExist])
+    if (self = [super initWithScrollView:scrollView])
     {
-        self.hasNavBar = isExist;
-        
         self.normalInfoText = @"上拉可以加载更多";
         
         self.willRefreshInfoText = @"松开立即加载";
@@ -40,7 +40,10 @@
         
         self.scrollViewOriginContentHeight = scrollView.contentSize.height;
         
-//        self.hidden = YES;
+        self.originEdgeInset = self.scrollView.contentInset;
+        
+        self.isFilled = NO;
+        
     }
     return self;
 }
@@ -50,6 +53,7 @@
     [super willMoveToSuperview:newSuperview];
     
     self.addContentInset = UIEdgeInsetsMake(0, 0, self.bounds.size.height, 0);
+
 }
 
 - (void)beginRefreshWithTarget:(id)target refreshAction:(SEL)action
@@ -61,7 +65,28 @@
 - (void)endRefreshing
 {
     [super endRefreshing];
+    
+    self.isFilled = (self.scrollView.contentSize.height)-(self.scrollView.bounds.size.height - self.scrollView.contentInset.top - self.scrollView.contentInset.bottom) > 0 ? YES : NO;
+    
+    if (!self.isFilled)
+    {
+        self.hidden = YES;
+    }
+    else
+    {
+        self.hidden = NO;
+    }
 }
+
+/*
+    思路分析：
+    对于上拉刷新需要做两层判断。
+    1、是否正在拖拽  self.scrollView.dragging 当正在拖拽的时候怎么做，没有正在拖拽的时候怎么做。
+    2、当前显示的有效的cell是否占满了整屏。判断条件:
+        self.scrollView.contentSize.height >= self.scrollView.bounds.size.height
+    3、最外层应该是对2的判断。
+    4、然后再在里面对y 和 criticalY 进行判断。
+ */
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -71,58 +96,93 @@
         return;
     }
     
+    if (!self.scrollView.isDragging && !self.scrollView.decelerating)
+    {
+        self.isFilled = (self.scrollView.contentSize.height)-(self.scrollView.bounds.size.height - self.scrollView.contentInset.top - self.scrollView.contentInset.bottom) > 0 ? YES : NO;
+    }
+    
+    if (!self.isFilled) // 非全屏
+    {
+        self.hidden = YES;
+    }
+    else  // 全屏
+    {
+        self.hidden = NO;
+    }
+    
     CGFloat y = [change[@"new"] CGPointValue].y;
     
-    CGFloat criticalY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.bounds.size.height + self.scrollView.contentInset.bottom;
+    if (y <= 0) return;
+    
+//    CGFloat criticalY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height;
+    
+//    CGFloat criticalY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.bounds.size.height + self.scrollView.contentInset.bottom;
+    
+//    CGFloat criticalY = -(self.bounds.size.height + self.scrollView.contentInset.top);
+    
+//    NSLog(@"Y = %lf %lf",y,criticalY);
+    
+    if (!self.isFilled)
+    {
+        self.hidden = NO;
+        
+        if (self.scrollView.isDragging)
+        {
+            if (y >= 30)
+            {
+                if (self.refreshState == FSRefreshStateNormal)
+                {
+                    [self setRefreshState:FSRefreshStateWillRefresh];
+                    return;
+                }
+            }
+            else
+            {
+                [self setRefreshState:FSRefreshStateNormal];
+            }
+        }
+        else
+        {
+            if (self.refreshState == FSRefreshStateWillRefresh)
+            {
+                self.refreshState = FSRefreshStateIsRefreshing;
+            }
+        }
+        
+    }
+    else
+    {
+            CGFloat criticalY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.bounds.size.height;
+        
+        //    CGFloat criticalY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.bounds.size.height + self.scrollView.contentInset.bottom;
+        
+        //    CGFloat criticalY = -(self.bounds.size.height + self.scrollView.contentInset.top);
+        
+//            NSLog(@"Y = %lf %lf",y,criticalY);
+        
+        if (self.scrollView.isDragging)
+        {
+            if (y >= criticalY && self.refreshState == FSRefreshStateNormal)
+            {
+                [self setRefreshState:FSRefreshStateWillRefresh];
+            }
+            else if (y < criticalY)
+            {
+                [self setRefreshState:FSRefreshStateNormal];
+            }
+        }
+        else
+        {
+            if (self.refreshState == FSRefreshStateWillRefresh)
+            {
+                [self setRefreshState:FSRefreshStateIsRefreshing];
+            }
+        }
+    }
     
     if (self.scrollView.contentSize.height != self.scrollViewOriginContentHeight)
     {
         [self layoutSubviews];
-    }
-    
-    if (!self.hasNavBar)
-    {
-        if (y <= 0 || self.scrollView.bounds.size.height == 0)
-        {
-            return;
-        }
-    }
-    else
-    {
-        if (y <= -64 || self.scrollView.bounds.size.height == 0) {
-            return;
-        }
-    }
-    
-    
-    if (y > criticalY && self.refreshState == FSRefreshStateNormal) // && !self.hidden
-    {
-        [self setRefreshState:FSRefreshStateWillRefresh];
-        
-//        NSLog(@"will");
-        
-        return;
-    }
-    
-    // y <= criticalY &&
-    if (self.refreshState == FSRefreshStateWillRefresh &&
-        !self.scrollView.isDragging)
-    {
-//        NSLog(@"isRefreshing");
-        
-        [self setRefreshState:FSRefreshStateIsRefreshing];
-        
-        return;
-    }
-    
-    
-    // y <= criticalY &&
-    if (!self.scrollView.isDragging &&
-        self.refreshState != FSRefreshStateNormal)
-    {
-//        NSLog(@"normal");
-        
-        [self setRefreshState:FSRefreshStateNormal];
     }
     
 }
@@ -133,16 +193,6 @@
     [super layoutSubviews];
     
     self.center = CGPointMake(self.bounds.size.width * 0.5, self.bounds.size.height * 0.5 + self.scrollView.contentSize.height);
-    
-    if (self.hasNavBar)
-    {
-//        self.hidden = self.scrollView.bounds.size.height - 64 > self.frame.origin.y;
-    }
-    else
-    {
-//        self.hidden = self.scrollView.bounds.size.height > self.frame.origin.y;
-    }
-    
 }
 
 

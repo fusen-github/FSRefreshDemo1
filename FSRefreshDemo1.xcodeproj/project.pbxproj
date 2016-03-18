@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0423CB761C9B12EE007A1848 /* FSRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0423CB751C9B12EE007A1848 /* FSRefreshFooter.m */; };
 		04AE86FC1C97ECF200E14DFF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AE86FB1C97ECF200E14DFF /* main.m */; };
 		04AE86FF1C97ECF200E14DFF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AE86FE1C97ECF200E14DFF /* AppDelegate.m */; };
 		04AE87021C97ECF200E14DFF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AE87011C97ECF200E14DFF /* ViewController.m */; };
@@ -14,7 +15,6 @@
 		04AE87071C97ECF200E14DFF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04AE87061C97ECF200E14DFF /* Images.xcassets */; };
 		04AE870A1C97ECF200E14DFF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04AE87081C97ECF200E14DFF /* LaunchScreen.xib */; };
 		04AE87161C97ECF200E14DFF /* FSRefreshDemo1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AE87151C97ECF200E14DFF /* FSRefreshDemo1Tests.m */; };
-		04AE87281C97ECFB00E14DFF /* FSRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AE87221C97ECFB00E14DFF /* FSRefreshFooter.m */; };
 		04AE87291C97ECFB00E14DFF /* FSRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AE87241C97ECFB00E14DFF /* FSRefreshHeader.m */; };
 		04AE872A1C97ECFB00E14DFF /* FSRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AE87261C97ECFB00E14DFF /* FSRefreshView.m */; };
 		04AE872B1C97ECFB00E14DFF /* sdRefeshView_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AE87271C97ECFB00E14DFF /* sdRefeshView_arrow@2x.png */; };
@@ -31,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0423CB741C9B12EE007A1848 /* FSRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSRefreshFooter.h; sourceTree = "<group>"; };
+		0423CB751C9B12EE007A1848 /* FSRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSRefreshFooter.m; sourceTree = "<group>"; };
 		04AE86F61C97ECF200E14DFF /* FSRefreshDemo1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSRefreshDemo1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AE86FA1C97ECF200E14DFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04AE86FB1C97ECF200E14DFF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -45,8 +47,6 @@
 		04AE87141C97ECF200E14DFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04AE87151C97ECF200E14DFF /* FSRefreshDemo1Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FSRefreshDemo1Tests.m; sourceTree = "<group>"; };
 		04AE87201C97ECFB00E14DFF /* FSRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSRefresh.h; sourceTree = "<group>"; };
-		04AE87211C97ECFB00E14DFF /* FSRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSRefreshFooter.h; sourceTree = "<group>"; };
-		04AE87221C97ECFB00E14DFF /* FSRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSRefreshFooter.m; sourceTree = "<group>"; };
 		04AE87231C97ECFB00E14DFF /* FSRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSRefreshHeader.h; sourceTree = "<group>"; };
 		04AE87241C97ECFB00E14DFF /* FSRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSRefreshHeader.m; sourceTree = "<group>"; };
 		04AE87251C97ECFB00E14DFF /* FSRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSRefreshView.h; sourceTree = "<group>"; };
@@ -136,10 +136,10 @@
 			isa = PBXGroup;
 			children = (
 				04AE87201C97ECFB00E14DFF /* FSRefresh.h */,
-				04AE87211C97ECFB00E14DFF /* FSRefreshFooter.h */,
-				04AE87221C97ECFB00E14DFF /* FSRefreshFooter.m */,
 				04AE87231C97ECFB00E14DFF /* FSRefreshHeader.h */,
 				04AE87241C97ECFB00E14DFF /* FSRefreshHeader.m */,
+				0423CB741C9B12EE007A1848 /* FSRefreshFooter.h */,
+				0423CB751C9B12EE007A1848 /* FSRefreshFooter.m */,
 				04AE87251C97ECFB00E14DFF /* FSRefreshView.h */,
 				04AE87261C97ECFB00E14DFF /* FSRefreshView.m */,
 				04AE87271C97ECFB00E14DFF /* sdRefeshView_arrow@2x.png */,
@@ -251,8 +251,8 @@
 				04AE87021C97ECF200E14DFF /* ViewController.m in Sources */,
 				04AE872A1C97ECFB00E14DFF /* FSRefreshView.m in Sources */,
 				04AE86FF1C97ECF200E14DFF /* AppDelegate.m in Sources */,
+				0423CB761C9B12EE007A1848 /* FSRefreshFooter.m in Sources */,
 				04AE86FC1C97ECF200E14DFF /* main.m in Sources */,
-				04AE87281C97ECFB00E14DFF /* FSRefreshFooter.m in Sources */,
 				04AE87291C97ECFB00E14DFF /* FSRefreshHeader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -450,6 +450,7 @@
 				04AE871B1C97ECF200E14DFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		04AE871C1C97ECF200E14DFF /* Build configuration list for PBXNativeTarget "FSRefreshDemo1Tests" */ = {
 			isa = XCConfigurationList;
@@ -458,6 +459,7 @@
 				04AE871E1C97ECF200E14DFF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -24,9 +24,9 @@
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     
-    self.window.rootViewController = nav;   // 有导航条的
+//    self.window.rootViewController = nav;   // 有导航条的
     
-//    self.window.rootViewController = vc;    // 没有导航条的
+    self.window.rootViewController = vc;    // 没有导航条的
     
     [self.window makeKeyAndVisible];
     

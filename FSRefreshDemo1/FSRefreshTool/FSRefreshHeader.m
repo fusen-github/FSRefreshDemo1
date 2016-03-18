@@ -13,18 +13,14 @@
     BOOL _hasLayoutedForManuallyRefreshing;
 }
 
-@property (nonatomic, assign) BOOL hasNavBar;
-
 @end
 
 @implementation FSRefreshHeader
 
-- (instancetype)initWithScrollView:(UIScrollView *)scrollView navigationBarIsExist:(BOOL)isExist
+- (instancetype)initWithScrollView:(UIScrollView *)scrollView
 {
-    if (self = [super initWithScrollView:scrollView navigationBarIsExist:isExist])
+    if (self = [super initWithScrollView:scrollView])
     {
-        self.hasNavBar = isExist;
-        
         self.normalInfoText = @"下拉可以刷新";
         
         self.willRefreshInfoText = @"松开立即刷新";
@@ -52,16 +48,24 @@
     [super endRefreshing];
 }
 
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    [super willMoveToSuperview:newSuperview];
+    
+}
+
 - (void)didMoveToSuperview
 {
     [super didMoveToSuperview];
     
     self.addContentInset = UIEdgeInsetsMake(self.bounds.size.height, 0, 0, 0);
+    
 }
 
-
 - (void)beginRefreshWhenViewWillAppear
-{    
+{
+    self.scrollView.contentOffset = CGPointMake(0, -self.bounds.size.height);
+    
     [self setRefreshState:FSRefreshStateIsRefreshing];
 }
 
@@ -77,29 +81,45 @@
     
     if ((y > 0) || (self.scrollView.bounds.size.height == 0)) return;
     
-    if (y < criticalY - 8 && (FSRefreshStateNormal == self.refreshState)
-        && self.scrollView.isDragging)
+    if (y <= criticalY)
     {
-        [self setRefreshState:FSRefreshStateWillRefresh];
-        
-        return;
+        if (self.scrollView.isDragging)
+        {
+            if (self.refreshState == FSRefreshStateNormal)
+            {
+                self.refreshState = FSRefreshStateWillRefresh;
+                
+                return;
+            }
+        }
+        else
+        {
+            if (self.refreshState == FSRefreshStateWillRefresh)
+            {
+                self.refreshState = FSRefreshStateIsRefreshing;
+                
+                return;
+            }
+        }
+    }
+    else
+    {
+        if (self.scrollView.isDragging)
+        {
+            if (self.refreshState != FSRefreshStateNormal)
+            {
+                [self setRefreshState:FSRefreshStateNormal];
+            }
+        }
+        else
+        {
+            if (self.refreshState == FSRefreshStateWillRefresh)
+            {
+                [self setRefreshState:FSRefreshStateIsRefreshing];
+            }
+        }
     }
     
-    
-    if (y <= criticalY + 10 && (self.refreshState == FSRefreshStateWillRefresh) &&
-        !self.scrollView.isDragging)
-    {
-        [self setRefreshState:FSRefreshStateIsRefreshing];
-        
-        return;
-    }
-    
-    // && self.scrollView.isDragging
-    
-    if (y > criticalY  &&  (FSRefreshStateNormal != self.refreshState))
-    {
-        [self setRefreshState:FSRefreshStateNormal];
-    }
 }
 
 

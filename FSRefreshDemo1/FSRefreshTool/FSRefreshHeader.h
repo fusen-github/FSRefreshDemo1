@@ -10,7 +10,7 @@
 
 @interface FSRefreshHeader : FSRefreshView
 
-- (instancetype)initWithScrollView:(UIScrollView *)scrollView navigationBarIsExist:(BOOL)isExist;
+- (instancetype)initWithScrollView:(UIScrollView *)scrollView;
 
 - (void)beginRefreshWithTarget:(id)target refreshAction:(SEL)action;
 
