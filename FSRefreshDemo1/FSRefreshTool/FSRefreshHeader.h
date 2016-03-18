@@ -10,6 +10,8 @@
 
 @interface FSRefreshHeader : FSRefreshView
 
++ (instancetype)refreshViewWithScrollView:(UIScrollView *)scrollView;
+
 - (instancetype)initWithScrollView:(UIScrollView *)scrollView;
 
 - (void)beginRefreshWithTarget:(id)target refreshAction:(SEL)action;

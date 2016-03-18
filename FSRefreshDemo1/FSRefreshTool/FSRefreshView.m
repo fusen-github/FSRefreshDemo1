@@ -46,6 +46,11 @@ _Pragma("clang diagnostic pop") \
 
 @implementation FSRefreshView
 
++ (instancetype)refreshViewWithScrollView:(UIScrollView *)scrollView
+{
+    return [[self alloc] initWithScrollView:scrollView];
+}
+
 - (instancetype)initWithScrollView:(UIScrollView *)scrollView
 {
     if (self = [super init])

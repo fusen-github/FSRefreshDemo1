@@ -17,6 +17,11 @@
 
 @implementation FSRefreshHeader
 
++ (instancetype)refreshViewWithScrollView:(UIScrollView *)scrollView
+{
+    return [[self alloc] initWithScrollView:scrollView];
+}
+
 - (instancetype)initWithScrollView:(UIScrollView *)scrollView
 {
     if (self = [super initWithScrollView:scrollView])

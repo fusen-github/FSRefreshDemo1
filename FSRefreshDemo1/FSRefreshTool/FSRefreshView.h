@@ -65,6 +65,8 @@ typedef void(^FSBeginRefreshBlock)();
  */
 - (instancetype)initWithScrollView:(UIScrollView *)scrollView;
 
++ (instancetype)refreshViewWithScrollView:(UIScrollView *)scrollView;
+
 - (void)beginRefreshWithTarget:(id)target refreshAction:(SEL)action;
 
 - (void)endRefreshing;

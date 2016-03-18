@@ -20,6 +20,11 @@
 
 @implementation FSRefreshFooter
 
++ (instancetype)refreshViewWithScrollView:(UIScrollView *)scrollView
+{
+    return [[self alloc] initWithScrollView:scrollView];
+}
+
 - (instancetype)initWithScrollView:(UIScrollView *)scrollView
 {
     if (self = [super initWithScrollView:scrollView])
@@ -111,10 +116,6 @@
     }
     
     CGFloat y = [change[@"new"] CGPointValue].y + self.scrollView.contentInset.top;;
-    
-//    NSLog(@"FS %lf",self.scrollView.contentInset.top);
-    
-    NSLog(@"%lf",y);
     
     if (y <= 0) return;
     
