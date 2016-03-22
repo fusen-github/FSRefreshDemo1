@@ -302,9 +302,13 @@ _Pragma("clang diagnostic pop") \
     
     CGFloat diffTop = self.inset2.top - self.inset1.top;
     
+    CGFloat diffBottom = self.inset2.bottom - self.inset1.bottom;
+    
     UIEdgeInsets inset = self.originalContentInset;
     
     inset.top += diffTop;
+    
+    inset.bottom += diffBottom;
     
     self.originalContentInset = inset;
     
@@ -318,14 +322,15 @@ _Pragma("clang diagnostic pop") \
         
     }];
     
-    if (self.refreshViewType == FSRefreshViewTypeHeader)
-    {
-        self.frame = CGRectMake(0, 0, self.scrollView.bounds.size.width, kRefreshViewDefaultHeight);
-    }
-    else if (self.refreshViewType == FSRefreshViewTypeFooder)
-    {
-        self.frame = CGRectMake(0, self.scrollView.contentSize.height, self.scrollView.bounds.size.width, kRefreshViewDefaultHeight);
-    }
+//    if (self.refreshViewType == FSRefreshViewTypeHeader)
+//    {
+//        self.frame = CGRectMake(0, 0, self.scrollView.bounds.size.width, kRefreshViewDefaultHeight);
+//    }
+//    else if (self.refreshViewType == FSRefreshViewTypeFooder)
+//    {
+//        self.frame = CGRectMake(0, self.scrollView.contentSize.height, self.scrollView.bounds.size.width, kRefreshViewDefaultHeight);
+//    }
+    
 }
 
 

@@ -58,7 +58,6 @@
     [super willMoveToSuperview:newSuperview];
     
     self.addContentInset = UIEdgeInsetsMake(0, 0, self.bounds.size.height, 0);
-
 }
 
 - (void)beginRefreshWithTarget:(id)target refreshAction:(SEL)action
@@ -101,7 +100,6 @@
         return;
     }
     
-    
     if (!self.scrollView.isDragging && !self.scrollView.decelerating)
     {
         self.isFilled = (self.scrollView.contentSize.height)-(self.scrollView.bounds.size.height - self.scrollView.contentInset.top - self.scrollView.contentInset.bottom) > 0 ? YES : NO;
@@ -114,6 +112,11 @@
     else  // 全屏
     {
         self.hidden = NO;
+    }
+    
+    if (self.frame.origin.y != self.scrollView.contentSize.height && !self.hidden)
+    {
+        self.frame = CGRectMake(0, self.scrollView.contentSize.height, self.scrollView.bounds.size.width, self.bounds.size.height);
     }
     
     CGFloat y = [change[@"new"] CGPointValue].y + self.scrollView.contentInset.top;;
@@ -154,7 +157,6 @@
                 self.refreshState = FSRefreshStateIsRefreshing;
             }
         }
-        
     }
     else
     {

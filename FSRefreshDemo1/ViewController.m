@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "FSRefresh.h"
 
-#define kExtensionCount 0
+#define kExtensionCount 2
 
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -32,7 +32,7 @@
     
     [self setupTableView];
     
-//    [self setupHeaderRefreshView];
+    [self setupHeaderRefreshView];
     
     [self setupFooterRefreshView];
 }
@@ -49,8 +49,6 @@
     
     tableView.dataSource = self;
     
-//    tableView.backgroundColor = [UIColor redColor];
-    
     tableView.delegate = self;
     
     [self.view addSubview:tableView];
@@ -58,15 +56,13 @@
 
 - (void)setupHeaderRefreshView
 {
-//    FSRefreshHeader *header = nil;
-    
     FSRefreshHeader *header = [[FSRefreshHeader alloc] initWithScrollView:self.tableView];
     
     self.header = header;
     
     [header beginRefreshWithTarget:self refreshAction:@selector(headerRefresh)];
     
-//    [header beginRefreshWhenViewWillAppear];
+    [header beginRefreshWhenViewWillAppear];
 }
 
 
@@ -74,7 +70,7 @@
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             [self.dataArray insertObject:@"付森" atIndex:0];
         }
@@ -97,9 +93,9 @@
 
 - (void)footerRefresh
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             [self.dataArray addObject:@"fusen"];
         }
