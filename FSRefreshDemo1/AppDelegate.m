@@ -24,9 +24,15 @@
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     
-    self.window.rootViewController = nav;   // 有导航条的
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    
+    [tabBarController addChildViewController:nav];
+    
+//    self.window.rootViewController = nav;   // 有导航条的
     
 //    self.window.rootViewController = vc;    // 没有导航条的
+    
+    self.window.rootViewController = tabBarController;
     
     [self.window makeKeyAndVisible];
     

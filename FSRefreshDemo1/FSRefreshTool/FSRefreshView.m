@@ -144,7 +144,14 @@ _Pragma("clang diagnostic pop") \
     
 //    NSLog(@"3-%@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
     
-    self.frame = CGRectMake(0, 0, self.scrollView.bounds.size.width, kRefreshViewDefaultHeight);
+    if (self.refreshViewType == FSRefreshViewTypeHeader)
+    {
+        self.frame = CGRectMake(0, 0, self.scrollView.bounds.size.width, kRefreshViewDefaultHeight);
+    }
+    else if (self.refreshViewType == FSRefreshViewTypeFooder)
+    {
+        self.frame = CGRectMake(0, self.scrollView.contentSize.height, self.scrollView.bounds.size.width, kRefreshViewDefaultHeight);
+    }
     
     if (!newSuperview)
     {
@@ -310,6 +317,15 @@ _Pragma("clang diagnostic pop") \
         self.refreshState = FSRefreshStateNormal;
         
     }];
+    
+    if (self.refreshViewType == FSRefreshViewTypeHeader)
+    {
+        self.frame = CGRectMake(0, 0, self.scrollView.bounds.size.width, kRefreshViewDefaultHeight);
+    }
+    else if (self.refreshViewType == FSRefreshViewTypeFooder)
+    {
+        self.frame = CGRectMake(0, self.scrollView.contentSize.height, self.scrollView.bounds.size.width, kRefreshViewDefaultHeight);
+    }
 }
 
 

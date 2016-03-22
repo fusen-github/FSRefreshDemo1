@@ -101,6 +101,7 @@
         return;
     }
     
+    
     if (!self.scrollView.isDragging && !self.scrollView.decelerating)
     {
         self.isFilled = (self.scrollView.contentSize.height)-(self.scrollView.bounds.size.height - self.scrollView.contentInset.top - self.scrollView.contentInset.bottom) > 0 ? YES : NO;
@@ -159,7 +160,7 @@
     {
         y -= self.scrollView.contentInset.top;
         
-            CGFloat criticalY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.bounds.size.height;
+            CGFloat criticalY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.bounds.size.height + self.scrollView.contentInset.bottom;
         
         //    CGFloat criticalY = self.scrollView.contentSize.height - self.scrollView.bounds.size.height + self.bounds.size.height + self.scrollView.contentInset.bottom;
         

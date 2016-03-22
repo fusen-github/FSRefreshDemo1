@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "FSRefresh.h"
 
+#define kExtensionCount 0
+
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -30,7 +32,7 @@
     
     [self setupTableView];
     
-    [self setupHeaderRefreshView];
+//    [self setupHeaderRefreshView];
     
     [self setupFooterRefreshView];
 }
@@ -47,7 +49,7 @@
     
     tableView.dataSource = self;
     
-    tableView.backgroundColor = [UIColor redColor];
+//    tableView.backgroundColor = [UIColor redColor];
     
     tableView.delegate = self;
     
@@ -72,7 +74,7 @@
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 5; i++)
         {
             [self.dataArray insertObject:@"付森" atIndex:0];
         }
@@ -112,7 +114,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArray.count + 10;
+    return self.dataArray.count + kExtensionCount;
 }
 
 
@@ -127,7 +129,7 @@
 //        cell.backgroundColor = [UIColor redColor];
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"这是第%ld行 一共%ld行",indexPath.row + 1,self.dataArray.count + 10];
+    cell.textLabel.text = [NSString stringWithFormat:@"这是第%ld行 一共%ld行",indexPath.row + 1,self.dataArray.count + kExtensionCount];
     
     return cell;
 }
